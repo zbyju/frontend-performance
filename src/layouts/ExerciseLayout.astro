@@ -1,0 +1,59 @@
+---
+import { MarkdownLayoutProps } from 'astro';
+
+type Props = MarkdownLayoutProps<{
+	title: string;
+}>;
+
+const { title, frontmatter } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<a href="/">Back home</a>
+    <h1>{frontmatter.title}</h1>
+		<slot />
+	</body>
+</html>
+<style is:global>
+	:root {
+		--accent: 124, 58, 237;
+		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
+	}
+	a {
+		text-decoration: none;
+		display: inline-block;
+		padding: 10px;
+		border: 1px solid #01255c;
+		border-radius: 7px;
+		color: #01255c;
+		background-color: rgba(255, 255, 255, 0);
+		transition: 0.5s all;
+	}
+
+	a:hover {
+		background-color: rgba(255, 255, 255, 1);
+	}
+
+	html {
+		font-family: system-ui, sans-serif;
+		background-color: #F6F6F6;
+	}
+	code {
+		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+			Bitstream Vera Sans Mono, Courier New, monospace;
+		}
+	pre {	
+		border: 1px solid #01255c;
+		border-radius: 7px;
+		padding: 5px;
+	}
+</style>

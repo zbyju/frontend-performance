@@ -1,4 +1,6 @@
 export interface Exercise {
-  name: string;
+  title: string;
   desc: string;
+  slug: string;
+  url: string;
 }
