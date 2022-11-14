@@ -1,0 +1,14 @@
+---
+import { Exercise } from '../types/exercise.types';
+import ExerciseCard from './ExerciseCard.astro';
+
+interface Props {
+  exercises: Exercise[];
+}
+const { exercises } = Astro.props;
+---
+
+<div class="exercise-list">
+  <h1>Exercises</h1>
+  {exercises.length > 0 ? exercises.map(e => <ExerciseCard exercise={e}/>) : <p>No exercises</p>}
+</div>
