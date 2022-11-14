@@ -18,8 +18,10 @@ const { title, frontmatter } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<a href="/">Back home</a>
-    <h1>{frontmatter.title}</h1>
+		<div class="heading">
+			<h1>{frontmatter.title}</h1>
+			<a href="/">Back home</a>
+		</div>
 		<slot />
 	</body>
 </html>
@@ -28,9 +30,20 @@ const { title, frontmatter } = Astro.props;
 		--accent: 124, 58, 237;
 		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
 	}
+	body {
+		width: 66%;
+		margin: 10px auto;
+	}
+	div.heading {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
 	a {
 		text-decoration: none;
 		display: inline-block;
+		height: auto;
 		padding: 10px;
 		border: 1px solid #01255c;
 		border-radius: 7px;
