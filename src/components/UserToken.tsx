@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-export default function UserTokenDisplay() {
+interface Props {
+  onReceive?: (_: string) => any;
+}
+
+export default function UserTokenDisplay({ onReceive }: Props) {
   const [userToken, setUserToken] = useState("");
   useEffect(() => {
     const token = window.localStorage.getItem("userToken");
@@ -13,5 +17,9 @@ export default function UserTokenDisplay() {
       setUserToken(token);
     }
   }, []);
+
+  useEffect(() => {
+    onReceive && onReceive(userToken);
+  }, [userToken]);
   return <>User: {userToken || "No user token"}</>;
 }
