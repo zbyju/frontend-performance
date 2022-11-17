@@ -1,0 +1,22 @@
+---
+import { Exercise } from '../types/exercise.types';
+
+interface Props {
+  exercise: Exercise
+}
+
+const {exercise} = Astro.props;
+---
+<div class="heading">
+  <h1>{exercise.title}</h1>
+  <a href="/">Back home</a>
+</div>
+
+<style is:global>
+  div.heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>

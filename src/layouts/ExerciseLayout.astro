@@ -1,9 +1,10 @@
 ---
 import { MarkdownLayoutProps } from 'astro';
+import ExerciseHeading from '../components/ExerciseHeading.astro';
+import SolutionSubmit from '../components/SolutionSubmit';
+import { Exercise } from '../types/exercise.types';
 
-type Props = MarkdownLayoutProps<{
-	title: string;
-}>;
+type Props = MarkdownLayoutProps<Exercise>;
 
 const { title, frontmatter } = Astro.props;
 ---
@@ -18,11 +19,9 @@ const { title, frontmatter } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<div class="heading">
-			<h1>{frontmatter.title}</h1>
-			<a href="/">Back home</a>
-		</div>
+		<ExerciseHeading exercise={{...frontmatter}} />
 		<slot />
+		<SolutionSubmit exercise={{...frontmatter}} client:load/>
 	</body>
 </html>
 <style is:global>
@@ -33,12 +32,6 @@ const { title, frontmatter } = Astro.props;
 	body {
 		width: 66%;
 		margin: 10px auto;
-	}
-	div.heading {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
 	}
 	a {
 		text-decoration: none;
@@ -68,5 +61,61 @@ const { title, frontmatter } = Astro.props;
 		border: 1px solid #01255c;
 		border-radius: 7px;
 		padding: 5px;
+	}
+	div.submit-wrapper {
+		width: 100%;
+	}
+  textarea {
+    width: calc(100% - 10px);
+    min-height: 250px;
+    margin: auto;
+		align-self: center;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 1.2em;
+  }
+  button.submit-button {
+    padding: 10px 8px;
+    background-color: rgb(59, 83, 203);
+    color: #fff;
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: 0.5s all;
+  }
+  button.submit-button:hover {
+    background-color: rgb(50, 69, 171);
+    cursor: pointer;
+  }
+	div.submit-footer {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
+	}
+	div.submit-result {
+		display: inline-block;
+		border: 1px solid #000;
+		border-radius: 5px;
+		height: auto;
+		padding: 10px 8px;
+		margin-top: 10px;
+	}
+	div.submit-result.passed {
+		background-color: rgb(94, 255, 142);
+	}
+	div.submit-result.failed {
+		background-color: rgb(255, 106, 106);
+	}
+	div.submit-result.error {
+		background-color: rgb(255, 94, 176);
+	}
+	div.submit-result.loading {
+		background-color: rgb(78, 35, 210);
+		color: #fff
+	}
+	div.submit-result.ready {
+		background-color: rgb(34, 212, 166);
 	}
 </style>
