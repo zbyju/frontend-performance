@@ -1,14 +1,13 @@
-FROM node:lts-alpine3.16
+FROM node:lts-alpine
+WORKDIR /usr/app
 
-WORKDIR /app
+COPY package.json ./
+COPY tsconfig*.json ./
+COPY astro* ./
 
-ENV PATH /app/node_modules/.bin:$PATH
-
-COPY package.json /app/package.json
-COPY tsconfig.json /app/tsconfig.json
-
+RUN yarn cache clean
 RUN yarn install
 
 EXPOSE 3000
 
-CMD [ "astro", "dev" ]
+CMD ["yarn", "dev", "--host"]

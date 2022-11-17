@@ -6,7 +6,8 @@ services:
     image: ui
     restart: "no"
     volumes:
-      - ./ui/:/app
+      - ./ui/src:/usr/app/src
+      - ./ui/public:/usr/app/public
     ports:
       - 3000:3000
     depends_on:
@@ -17,7 +18,7 @@ services:
     image: api
     restart: "no"
     volumes:
-      - ./:/usr/app
+      - ./api:/usr/app
     ports:
       - 4000:4000
     depends_on:
