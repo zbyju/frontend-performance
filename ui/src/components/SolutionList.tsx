@@ -26,6 +26,7 @@ export default function SolutionList({ slug }) {
   if ($solutions === undefined) {
     return (
       <div className="solution-list">
+        <h3>Submitted solutions</h3>
         <p>Loading solutions...</p>
       </div>
     );
@@ -34,6 +35,7 @@ export default function SolutionList({ slug }) {
   if ($solutions.length === 0) {
     return (
       <div className="solution-list">
+        <h3>Submitted solutions</h3>
         <p>No solutions found.</p>
       </div>
     );
@@ -41,6 +43,7 @@ export default function SolutionList({ slug }) {
 
   return (
     <div className="solution-list">
+      <h3>Submitted solutions</h3>
       {$solutions.map((s) => (
         <Solution key={s.id} solution={s} />
       ))}

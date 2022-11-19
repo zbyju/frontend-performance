@@ -38,22 +38,6 @@ export default function SolutionSubmit({ exercise }: Props) {
     }
   };
 
-  function getResultEl(result: SolutionPostResult) {
-    switch (result.kind) {
-      case "passed":
-        return <div className="submit-result passed">Passed</div>;
-      case "failed":
-        return <div className="submit-result failed">Failed</div>;
-      case "error":
-        return <div className="submit-result error">Error</div>;
-      case "loading":
-        return <div className="submit-result loading">Loading</div>;
-      case "ready":
-        return <div className="submit-result ready">Ready</div>;
-    }
-  }
-
-  const resultEl = getResultEl(result);
   return (
     <div className="submit-wrapper">
       <h3>Submit solution</h3>
@@ -67,7 +51,6 @@ export default function SolutionSubmit({ exercise }: Props) {
         <button className="submit-button" onClick={handleSubmit}>
           Submit solution
         </button>
-        {resultEl}
       </div>
     </div>
   );
