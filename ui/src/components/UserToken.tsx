@@ -1,25 +1,20 @@
-import { useEffect, useState } from "react";
+import { useStore } from "@nanostores/react";
+import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { userToken } from "../stores/token";
 
-interface Props {
-  onReceive?: (_: string) => any;
-}
-
-export default function UserTokenDisplay({ onReceive }: Props) {
-  const [userToken, setUserToken] = useState("");
+export default function UserTokenDisplay() {
+  const $userToken = useStore(userToken);
   useEffect(() => {
     const token = window.localStorage.getItem("userToken");
     if (!token) {
       const newToken = uuidv4();
-      setUserToken(newToken);
+      userToken.set(newToken);
       window.localStorage.setItem("userToken", newToken);
     } else {
-      setUserToken(token);
+      userToken.set(token);
     }
   }, []);
 
-  useEffect(() => {
-    onReceive && onReceive(userToken);
-  }, [userToken]);
-  return <>User: {userToken || "No user token"}</>;
+  return <>User: {$userToken || "No user token"}</>;
 }

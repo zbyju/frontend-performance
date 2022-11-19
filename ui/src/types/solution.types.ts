@@ -15,3 +15,12 @@ export type Loading = {
 export type Ready = {
   kind: "ready";
 };
+
+export interface ApiSolution {
+  id: number;
+  slug: string;
+  token: string;
+  result: string;
+  solution: string;
+  created_at: string;
+}

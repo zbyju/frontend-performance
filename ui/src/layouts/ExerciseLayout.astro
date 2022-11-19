@@ -1,6 +1,8 @@
 ---
 import { MarkdownLayoutProps } from 'astro';
 import ExerciseHeading from '../components/ExerciseHeading.astro';
+import ExerciseSolutions from '../components/ExerciseSolutions';
+import SolutionList from '../components/SolutionList';
 import SolutionSubmit from '../components/SolutionSubmit';
 import { Exercise } from '../types/exercise.types';
 
@@ -21,7 +23,7 @@ const { title, frontmatter } = Astro.props;
 	<body>
 		<ExerciseHeading exercise={{...frontmatter}} />
 		<slot />
-		<SolutionSubmit exercise={{...frontmatter}} client:load/>
+		<ExerciseSolutions exercise={{...frontmatter}} client:load />
 	</body>
 </html>
 <style is:global>
@@ -65,9 +67,63 @@ const { title, frontmatter } = Astro.props;
 	div.submit-wrapper {
 		width: 100%;
 	}
+	div.submit-wrapper h3 {
+		margin: 0;
+		margin-top: 25px;
+		padding: 0;
+		font-size: 1.6em;
+	}
   textarea {
     width: calc(100% - 10px);
     min-height: 250px;
+    margin: auto;
+		margin-top: 3px;
+		align-self: center;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 1.2em;
+  }
+	div.solution {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 10px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+	div.solution div.solution-side {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 5px;
+	}
+	div.solution div.solution-side div.solution-timestamp {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		flex-wrap: wrap;
+		border-radius: 5px;
+		border: 1px solid #000;
+	}
+	div.solution div.solution-side div.solution-timestamp p {
+		padding: 0;
+		margin: 0;
+	}
+	div.solution div.solution-result {
+		display: inline-flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 10px 8px;
+		height: 15px;
+		border-radius: 5px;
+		border: 1px solid #000;
+	}
+
+	.solution textarea {
+    width: calc(100% - 10px);
+    min-height: 75px;
     margin: auto;
 		align-self: center;
     border: 1px solid #000;
@@ -75,6 +131,13 @@ const { title, frontmatter } = Astro.props;
     padding: 5px;
     font-size: 1.2em;
   }
+	.solution.PASSED textarea { border: 3px solid rgb(94, 255, 142) }
+	.solution.FAILED textarea { border: 3px solid rgb(255, 106, 106) }
+	.solution.PENDING textarea { border: 3px solid rgb(78, 35, 210) }
+	.solution.PASSED .solution-result { background-color: rgb(94, 255, 142) }
+	.solution.FAILED .solution-result { background-color: rgb(255, 106, 106) }
+	.solution.PENDING .solution-result { background-color: rgb(78, 35, 210); color: #fff }
+
   button.submit-button {
     padding: 10px 8px;
     background-color: rgb(59, 83, 203);

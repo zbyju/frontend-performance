@@ -1,5 +1,8 @@
 CREATE TABLE solutions (
-  slug TEXT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  slug TEXT NOT NULL,
+  token TEXT NOT NULL,
   solution TEXT NOT NULL,
-  token TEXT NOT NULL
+  result TEXT NOT NULL
 );
