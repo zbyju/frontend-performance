@@ -12,11 +12,13 @@ services:
       - 3000:3000
     depends_on:
       - api
+    networks:
+      - rabbitmq_nodejs
 
   api:
     build: api
     image: api
-    restart: "no"
+    restart: "on-failure"
     volumes:
       - ./api:/usr/app
     ports:
@@ -24,8 +26,11 @@ services:
     depends_on:
       - database
       - flyway
+      - rabbitmq
     env_file:
       - project.env
+    networks:
+      - rabbitmq_nodejs
 
   database:
     container_name: dab-p2-database
@@ -33,6 +38,8 @@ services:
     restart: "no"
     env_file:
       - project.env
+    networks:
+      - rabbitmq_nodejs
 
   flyway:
     image: flyway/flyway:8.4.0-alpine
@@ -43,3 +50,22 @@ services:
     command: -connectRetries=60 -baselineOnMigrate=true migrate
     env_file:
       - project.env
+    networks:
+      - rabbitmq_nodejs
+  
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - rabbitmq_nodejs
+
+
+networks:
+  rabbitmq_nodejs:
+    driver: bridge
