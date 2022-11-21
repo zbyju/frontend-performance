@@ -9,11 +9,28 @@ app.use(cors());
 
 app.use("/api/solution", require("./controllers/solution"));
 
-const intervalQueue = setInterval(async () => {
-  const res = await connect();
-  console.log("Success connecting to the queue: ", res);
-  if (res) clearInterval(intervalQueue);
-}, 5000);
+const connectToQueue = async () => {
+  let res = false;
+  try {
+    await connect();
+    res = true;
+  } catch (err) {
+    res = false;
+  }
+  if (!res) {
+    const intervalQueue = setInterval(async () => {
+      try {
+        await connect();
+        res = true;
+      } catch (err) {
+        res = false;
+      }
+      if (res) clearInterval(intervalQueue);
+    }, 5000);
+  }
+  console.log("Successfully connected to RabbitMQ");
+};
+connectToQueue();
 
 app.listen(4000, () => {
   console.log(`App listening on port 4000`);

@@ -1,35 +1,57 @@
 const amqp = require("amqplib/callback_api");
 
-let channel, connection;
+let missedSolutions = [];
+let channel,
+  connection = undefined;
 
 const forGradingQueue = "for_grading";
 
 async function connect() {
-  amqp.connect(
-    process.env.CLOUDAMQP_URL || "amqp://localhost:5672",
-    function (error0, conn) {
-      if (error0) {
-        return console.log(error0);
-      }
-      connection = conn;
-      connection.createChannel(function (error1, ch) {
-        if (error1) {
-          return console.log(error1);
+  return new Promise((resolve, reject) => {
+    amqp.connect(
+      process.env.CLOUDAMQP_URL || "amqp://localhost:5672",
+      function (error0, conn) {
+        if (error0) {
+          console.log(error0);
+          return reject(false);
         }
+        connection = conn;
+        connection.createChannel(function (error1, ch) {
+          if (error1) {
+            console.log(error1);
+            return reject(false);
+          }
 
-        channel = ch;
+          channel = ch;
 
-        channel.assertQueue(forGradingQueue, {
-          durable: false,
+          channel.assertQueue(
+            forGradingQueue,
+            {
+              durable: false,
+            },
+            (error2) => {
+              if (error2) {
+                console.log(error2);
+                return reject(false);
+              }
+              missedSolutions.forEach((m) => sendForGrading(m));
+              missedSolutions = [];
+              resolve(true);
+            }
+          );
         });
-      });
-    }
-  );
-  return connection && channel ? true : false;
+      }
+    );
+  });
 }
 
 function sendForGrading(msg) {
-  console.log(msg);
+  if (channel) {
+    channel.sendToQueue(forGradingQueue, Buffer.from(msg));
+    console.log("Added to queue: ", msg);
+  } else {
+    missedSolutions.push(msg);
+  }
 }
 
 module.exports = {

@@ -1,18 +1,10 @@
 const { getPool } = require("./pool");
+const { sendForGrading } = require("./queue");
 
 async function handleSolution(solution) {
   const { rows } = await saveSolutionPending({ ...solution });
+  sendForGrading(solution.solution);
   return rows[0] || undefined;
-}
-
-function gradeSolution(solution) {
-  return new Promise(function (resolve) {
-    setTimeout(() => {
-      const rng = Math.random();
-      const res = rng > 0.5 ? true : false;
-      resolve(res);
-    }, 10000);
-  });
 }
 
 function saveSolutionPending(solution) {
