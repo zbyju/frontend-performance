@@ -44,6 +44,7 @@ services:
       - database
       - flyway
       - rabbitmq
+      - redis
     env_file:
       - project.env
     networks:
@@ -81,6 +82,20 @@ services:
       - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
       - rabbitmq_nodejs
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server /usr/local/etc/redis/redis.conf 
+    volumes: 
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - cache:/data
+
+volumes:
+  cache:
+    driver: local
 
 
 networks:

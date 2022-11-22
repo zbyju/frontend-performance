@@ -1,6 +1,6 @@
 const exec = require("await-exec");
 const fs = require("fs/promises");
-const { getPool } = require("./pool");
+const { getPool } = require("./connection");
 
 const createGradingContainer = async (code, randomKey) => {
   const randomFileName = `submission-${randomKey}.data`;
