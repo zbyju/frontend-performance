@@ -1,0 +1,13 @@
+{
+  "name": "grader",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.3"
+  }
+}

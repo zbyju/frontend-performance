@@ -5,6 +5,7 @@ let channel,
   connection = undefined;
 
 const forGradingQueue = "for_grading";
+const gradedQueue = "graded";
 
 async function connect() {
   return new Promise((resolve, reject) => {
@@ -22,8 +23,8 @@ async function connect() {
             return reject(false);
           }
 
+          // Create queue for grading
           channel = ch;
-
           channel.assertQueue(
             forGradingQueue,
             {
@@ -34,7 +35,9 @@ async function connect() {
                 console.log(error2);
                 return reject(false);
               }
-              missedSolutions.forEach((m) => sendForGrading(m));
+              missedSolutions.forEach(({ id, solution }) =>
+                sendForGrading(id, solution)
+              );
               missedSolutions = [];
               resolve(true);
             }
@@ -45,12 +48,12 @@ async function connect() {
   });
 }
 
-function sendForGrading(msg) {
+function sendForGrading(id, solution) {
   if (channel) {
-    channel.sendToQueue(forGradingQueue, Buffer.from(msg));
-    console.log("Added to queue: ", msg);
+    channel.sendToQueue(forGradingQueue, Buffer.from(`${id}|${solution}`));
+    console.log("Added to queue: ", id, solution);
   } else {
-    missedSolutions.push(msg);
+    missedSolutions.push({ id, solution });
   }
 }
 
