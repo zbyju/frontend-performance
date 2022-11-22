@@ -1,16 +1,16 @@
-const redis = require("redis");
-const { getRedisClient } = require("./connection");
+const Redis = require("ioredis");
 
-const client = getRedisClient();
-client.on("error", (err) => console.log("Redis Client Error", err));
-await client.connect();
+const redis = new Redis({
+  host: "redis",
+  port: 6379,
+});
 
 const findInCache = (key) => {
-  return client.get(key);
+  return redis.get(key);
 };
 
 const saveInCache = (key, value) => {
-  return client.set(key, value);
+  return redis.set(key, value);
 };
 
 module.exports = {

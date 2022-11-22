@@ -1,4 +1,5 @@
 const amqp = require("amqplib/callback_api");
+const { findInCache, saveInCache } = require("./cache");
 const {
   createGradingContainer,
   runGradingContainer,
@@ -37,11 +38,19 @@ function connect() {
 async function handleGrading(msg) {
   const [id, solution] = msg.split("|");
 
+  const cached = await findInCache(solution);
+  if (cached !== null) {
+    console.log("Found in cache for ", solution, " - ", cached);
+    updateResult(id, cached);
+    return cached;
+  }
+
   const randomKey = Math.floor(Math.random() * 900000000 + 100000000);
 
   const graderContainerName = await createGradingContainer(solution, randomKey);
   const result = await runGradingContainer(graderContainerName, randomKey);
   updateResult(id, result);
+  saveInCache(solution, result);
   return result;
 }
 
