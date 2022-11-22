@@ -17,4 +17,4 @@ else
   RES="ERROR"
 fi
 
-echo $RES > /app/submission/result.data
+echo $RND > /app/submission/result.data 
