@@ -13,7 +13,6 @@ export function resetSolutions() {
 }
 
 export async function fetchSolutions(slug: string, userToken: string) {
-  console.log(slug, userToken);
   const res = await axios.get(
     "http://localhost:4000/api/solution/slug/" + slug,
     {

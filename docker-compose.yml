@@ -4,7 +4,7 @@ services:
   ui:
     build: ui
     image: ui
-    restart: "no"
+    restart: always
     volumes:
       - ./ui/src:/usr/app/src
       - ./ui/public:/usr/app/public

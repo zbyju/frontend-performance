@@ -30,7 +30,6 @@ export default function SolutionSubmit({ exercise }: Props) {
           },
         }
       );
-      console.log(res);
       addSolution(res.data);
     } catch (err) {
       setResult({ kind: "error", error: err });

@@ -51,7 +51,6 @@ async function connect() {
 function sendForGrading(id, solution) {
   if (channel) {
     channel.sendToQueue(forGradingQueue, Buffer.from(`${id}|${solution}`));
-    console.log("Added to queue: ", id, solution);
   } else {
     missedSolutions.push({ id, solution });
   }

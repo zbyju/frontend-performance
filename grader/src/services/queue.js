@@ -40,7 +40,6 @@ async function handleGrading(msg) {
 
   const cached = await findInCache(solution);
   if (cached !== null) {
-    console.log("Found in cache for ", solution, " - ", cached);
     updateResult(id, cached);
     return cached;
   }

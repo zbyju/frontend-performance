@@ -2,41 +2,33 @@ import { useStore } from "@nanostores/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { userToken } from "../stores/token";
-import { Exercise } from "../types/exercise.types";
+import {
+  Exercise,
+  ExerciseStatus,
+  ExerciseWithStatus,
+} from "../types/exercise.types";
 import { ApiSolution } from "../types/solution.types";
+import ExerciseList from "./ExerciseList";
 
 interface Props {
-  exercise: Exercise;
+  exercise: ExerciseWithStatus | undefined;
 }
 export default function ExerciseCard({ exercise }: Props) {
-  const [solutions, setSolutions] = useState<ApiSolution[] | undefined>(
-    undefined
-  );
-  const $token = useStore(userToken);
-  const status =
-    solutions === undefined
-      ? ["Loading solutions...", "loading"]
-      : solutions.length <= 0
-      ? ["Untouched", "untouched"]
-      : solutions.some((s) => s.result === "PASSED")
-      ? ["Completed", "completed"]
-      : solutions.some((s) => s.result === "FAILED")
-      ? ["Touched", "touched"]
-      : solutions.some((s) => s.result === "PENDING")
-      ? ["Pending", "pending"]
-      : ["Untouched", "untouched"];
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/api/solution/slug/" + exercise.slug, {
-        headers: {
-          Authorization: $token,
-        },
-      })
-      .then((res) => {
-        setSolutions(res.data.solutions);
-      });
-  }, []);
+  function statusToText(status: ExerciseStatus | undefined): string {
+    switch (status) {
+      case undefined:
+      case ExerciseStatus.Loading:
+        return "Loading";
+      case ExerciseStatus.Untouched:
+        return "Untouched";
+      case ExerciseStatus.Touched:
+        return "Touched";
+      case ExerciseStatus.Pending:
+        return "Pending";
+      case ExerciseStatus.Completed:
+        return "Completed";
+    }
+  }
   return (
     <li className="link-card">
       <a href={exercise.url}>
@@ -44,7 +36,9 @@ export default function ExerciseCard({ exercise }: Props) {
           {exercise.title}
           <span>&rarr;</span>
         </h2>
-        <p className={status[1]}>{status[0]}</p>
+        <p className={exercise.status.toLowerCase()}>
+          {statusToText(exercise.status)}
+        </p>
       </a>
     </li>
   );
