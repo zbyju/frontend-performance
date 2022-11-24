@@ -45,6 +45,7 @@ services:
       - flyway
       - rabbitmq
       - redis
+      - grader-image
     env_file:
       - project.env
     networks:
@@ -95,6 +96,10 @@ services:
       - cache:/data
     networks:
       - rabbitmq_nodejs
+
+  grader-image:
+    build: ./grader-image
+    image: grader-image
 
 volumes:
   cache:
