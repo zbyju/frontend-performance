@@ -6,4 +6,4 @@ RUN yarn install
 COPY . .
 EXPOSE 4000
 RUN npm install -g nodemon
-CMD ["yarn", "dev"]
+CMD ["yarn", "start"]
