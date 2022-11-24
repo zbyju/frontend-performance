@@ -5,12 +5,12 @@ const redis = new Redis({
   port: 6379,
 });
 
-const findInCache = (key) => {
-  return redis.get(key);
+const findInCache = (slug, solution) => {
+  return redis.get(slug + "|" + solution);
 };
 
-const saveInCache = (key, value) => {
-  return redis.set(key, value);
+const saveInCache = (slug, solution, result) => {
+  return redis.set(slug + "|" + solution, result);
 };
 
 module.exports = {

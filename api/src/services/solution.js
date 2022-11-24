@@ -4,7 +4,7 @@ const { sendForGrading } = require("./queue");
 async function handleSolution(solution) {
   const { rows } = await saveSolutionPending({ ...solution });
   if (!rows || rows.length < 1) return undefined;
-  sendForGrading(rows[0].id, rows[0].solution);
+  sendForGrading(rows[0].id, rows[0].slug, rows[0].solution);
   return rows[0];
 }
 

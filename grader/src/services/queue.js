@@ -36,9 +36,9 @@ function connect() {
 }
 
 async function handleGrading(msg) {
-  const [id, solution] = msg.split("|");
+  const [id, slug, solution] = msg.split("|");
 
-  const cached = await findInCache(solution);
+  const cached = await findInCache(slug, solution);
   if (cached !== null) {
     updateResult(id, cached);
     return cached;
@@ -49,7 +49,7 @@ async function handleGrading(msg) {
   const graderContainerName = await createGradingContainer(solution, randomKey);
   const result = await runGradingContainer(graderContainerName, randomKey);
   updateResult(id, result);
-  saveInCache(solution, result);
+  saveInCache(slug, solution, result);
   return result;
 }
 

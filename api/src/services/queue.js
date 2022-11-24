@@ -35,8 +35,8 @@ async function connect() {
                 console.log(error2);
                 return reject(false);
               }
-              missedSolutions.forEach(({ id, solution }) =>
-                sendForGrading(id, solution)
+              missedSolutions.forEach(({ id, slug, solution }) =>
+                sendForGrading(id, slug, solution)
               );
               missedSolutions = [];
               resolve(true);
@@ -48,9 +48,12 @@ async function connect() {
   });
 }
 
-function sendForGrading(id, solution) {
+function sendForGrading(id, slug, solution) {
   if (channel) {
-    channel.sendToQueue(forGradingQueue, Buffer.from(`${id}|${solution}`));
+    channel.sendToQueue(
+      forGradingQueue,
+      Buffer.from(`${id}|${slug}|${solution}`)
+    );
   } else {
     missedSolutions.push({ id, solution });
   }
