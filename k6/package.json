@@ -1,0 +1,13 @@
+{
+  "name": "k6",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "k6:index": "docker run --rm --network host -i grafana/k6 run --vus 10 --duration 10s --summary-trend-stats=\"avg,med,p(90),p(95),p(99),p(99.99),count\" - < index.js",
+    "k6:submit": "docker run --rm --network host -i grafana/k6 run --vus 10 --duration 10s --summary-trend-stats=\"avg,med,p(90),p(95),p(99),p(99.99),count\" - < submit.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
