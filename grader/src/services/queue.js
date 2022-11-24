@@ -6,6 +6,8 @@ const {
   updateResult,
 } = require("./grade");
 
+require("dotenv").config();
+
 function connect() {
   const forGradingQueue = "for_grading";
   amqp.connect(
@@ -22,14 +24,12 @@ function connect() {
         channel.assertQueue(forGradingQueue, {
           durable: false,
         });
+        channel.prefetch(process.env.PREFETCH || 10);
 
-        channel.consume(
-          forGradingQueue,
-          (msg) => handleGrading(msg.content.toString()),
-          {
-            noAck: true,
-          }
-        );
+        channel.consume(forGradingQueue, async (msg) => {
+          await handleGrading(msg.content.toString());
+          channel.ack(msg);
+        });
       });
     }
   );
