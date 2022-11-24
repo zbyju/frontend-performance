@@ -40,7 +40,18 @@ API endpoints:
 - GET `/api/solution/:id` - returns a solution by id
 - GET `/api/solution/slug/:slug` *(expects an Authorization header* - returns all solutions for a specific exercise by a specific user
 
+UI endpoints:
+
+- `/` - contains 3 lists:
+  - **Todo** - list of maximum of 3 exercises that haven't been completed yet
+  - **Completed** - list of all the completed exercises
+  - **Exercises** - list of all exercises
+  - After clicking on any exercise it redirects the user to `/exercise/:slug`
+- `/exercise/:slug` - contains the Markdown description of the exercise, textarea for submission and list of submitted solutions and grades/results
+
 ## How to run
+
+**It takes a while for all the services to start, please wait until they all do before running the tests or using the application.**
 
 To run the application you need to run:
 
