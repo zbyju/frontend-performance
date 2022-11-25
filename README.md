@@ -53,6 +53,19 @@ UI endpoints:
 
 **It takes a while for all the services to start, please wait until they all do before running the tests or using the application.**
 
+Before running the application you need to install dependencies:
+
+```bash
+# in /api, /grader, /ui
+cd api
+cd grader
+cd ui
+
+yarn install
+# or
+npm install
+```
+
 To run the application you need to run:
 
 ```
