@@ -66,7 +66,9 @@ To run the k6 performance tess you need to run:
 docker-compose up --build
 
 # k6
-todo
+cd k6 # Move to the k6 directory
+npm run k6:index  # To run k6 for main page
+npm run k6:submit # To run k6 for submit API endpoint
 ```
 
 ## Performance
